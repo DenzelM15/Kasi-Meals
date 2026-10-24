@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#C65D21">
+<title>List your restaurant — Kasi Meals</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="vendor.css?v=8">
+<link rel="stylesheet" href="admin.css?v=8">
+</head>
+<body>
+
+<header class="vendor-topbar">
+    <div class="brand">
+        <div class="brand-mark"><img src="logo.png" alt="Kasi Meals logo"></div>
+        <div class="brand-text">
+            <strong>KASI MEALS</strong>
+            <span>List your restaurant</span>
+        </div>
+    </div>
+    <div class="vendor-actions">
+        <a class="vendor-ghost" href="index.html">← Customer app</a>
+    </div>
+</header>
+
+<main class="vendor-main narrow">
+
+    <p class="grid-note" id="loadingView">Loading…</p>
+
+    <!-- existing application / blocked -->
+    <section id="statusView" hidden></section>
+
+    <!-- application form -->
+    <section id="formView" hidden>
+        <div class="profile-header">
+            <span class="section-kicker">FOR RESTAURANTS</span>
+            <h1>List your restaurant 🍽️</h1>
+            <p>Tell us about your kitchen. Our team reviews every application, and once approved you get your own dashboard to add your menu and take orders.</p>
+        </div>
+
+        <form id="applyForm" class="profile-card checkout-form">
+
+            <div id="accountFields">
+                <div class="auth-tabs">
+                    <button type="button" data-mode="signup" class="active">New account</button>
+                    <button type="button" data-mode="login">I have an account</button>
+                </div>
+                <label>
+                    <span>Email</span>
+                    <input type="email" id="aEmail" autocomplete="email">
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="aPassword" minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+                </label>
+            </div>
+            <p class="signed-in-note" id="signedInNote" hidden></p>
+
+            <h2>About your restaurant</h2>
+            <label>
+                <span>Restaurant name</span>
+                <input type="text" id="aName" maxlength="60" required placeholder="e.g. Mama's Kota">
+            </label>
+            <label>
+                <span>Type of food</span>
+                <select id="aCategory">
+                    <option value="kotas">Kotas &amp; fast food</option>
+                    <option value="meals">Kasi meals</option>
+                    <option value="chicken">Chicken</option>
+                    <option value="braai">Braai &amp; shisanyama</option>
+                </select>
+            </label>
+            <label>
+                <span>Short description</span>
+                <input type="text" id="aDescription" maxlength="80" placeholder="e.g. Kotas • Fast Food">
+            </label>
+            <label>
+                <span>Address</span>
+                <textarea id="aAddress" rows="2" required placeholder="Street, area and town"></textarea>
+            </label>
+
+            <h2>About you</h2>
+            <label>
+                <span>Your name</span>
+                <input type="text" id="aOwner" maxlength="60" required placeholder="Owner or manager">
+            </label>
+            <label>
+                <span>Phone number</span>
+                <input type="tel" id="aPhone" required placeholder="e.g. 082 123 4567" autocomplete="tel">
+            </label>
+
+            <button class="checkout-button" id="aSubmit" type="submit">Send application <span>→</span></button>
+            <p class="auth-message" id="aMessage" role="alert" hidden></p>
+        </form>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="apply.js?v=8"></script>
+</body>
+</html>
+

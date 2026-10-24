@@ -1,0 +1,107 @@
+/* Admin dashboard + application page extras (colours come from style.css) */
+
+.vendor-main.narrow { max-width: 640px; }
+
+.apply-select,
+#applyForm select {
+    width: 100%;
+    box-sizing: border-box;
+    height: 54px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+}
+
+#applyForm h2 { margin: 6px 0 0; font-size: 18px; }
+#applyForm .auth-tabs { margin-bottom: 4px; }
+
+.status-card { text-align: center; }
+.status-card h2 { margin: 6px 0 8px; font-size: 22px; }
+.status-card p { color: var(--text-soft); font-size: 14px; margin: 8px 0; }
+.status-card .status-meta { font-weight: 800; color: var(--text); }
+.status-card .success-icon { margin: 0 auto 8px; }
+
+/* ----- stats ----- */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+@media (min-width: 700px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    box-shadow: var(--shadow);
+}
+.stat-card small { display: block; color: var(--text-soft); font-size: 12px; font-weight: 700; }
+.stat-card strong { display: block; margin-top: 6px; font-size: 24px; color: var(--text); }
+.stat-card.highlight strong { color: var(--primary); }
+
+.admin-block { margin-bottom: 22px; }
+.admin-block h2 { margin: 0 0 10px; font-size: 18px; }
+
+.bar-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 13px; }
+.bar-row .bar-label { width: 90px; font-weight: 700; flex: none; }
+.bar-row .bar { flex: 1; height: 10px; background: var(--background); border-radius: 999px; overflow: hidden; }
+.bar-row .bar span { display: block; height: 100%; background: var(--primary); border-radius: 999px; }
+.bar-row .bar-num { width: 34px; text-align: right; font-weight: 800; }
+
+.rank-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 14px;
+}
+.rank-row:last-child { border-bottom: none; }
+.rank-row small { display: block; color: var(--text-soft); }
+
+/* ----- applications / restaurants / orders ----- */
+.app-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+}
+.app-card h3 { margin: 0; font-size: 17px; }
+.app-card .app-meta { color: var(--text-soft); font-size: 13px; margin: 4px 0 10px; }
+.app-card dl { margin: 0 0 12px; display: grid; grid-template-columns: 90px 1fr; gap: 6px 10px; font-size: 14px; }
+.app-card dt { color: var(--text-soft); font-weight: 700; }
+.app-card dd { margin: 0; word-break: break-word; }
+.app-card .note { margin: 8px 0; padding: 10px 12px; border-radius: 10px; background: var(--surface-soft); font-size: 13px; }
+
+.tab-dot {
+    display: inline-block;
+    min-width: 18px;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: #E03131;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.pill { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.pill.ok   { background: rgba(47, 158, 68, 0.18);  color: #2f9e44; }
+.pill.warn { background: rgba(242, 184, 75, 0.25); color: #9a6a00; }
+.pill.bad  { background: rgba(224, 49, 49, 0.15);  color: #E03131; }
+.pill.grey { background: rgba(134, 142, 150, 0.2); color: #6c757d; }
+
+.row-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.row-pills { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+.admin-orders .app-card { padding: 12px 14px; margin-bottom: 10px; }
+.admin-orders .app-card p { margin: 4px 0 0; font-size: 13px; color: var(--text-soft); }
+

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C65D21">
+<title>Kasi Meals — Vendor</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="vendor.css?v=8">
+</head>
+<body>
+
+<header class="vendor-topbar">
+    <div class="brand">
+        <div class="brand-mark"><img src="logo.png" alt="Kasi Meals logo"></div>
+        <div class="brand-text">
+            <strong>KASI MEALS</strong>
+            <span id="restaurantLabel">Vendor</span>
+        </div>
+    </div>
+    <div class="vendor-actions" id="vendorActions" hidden>
+        <select id="restaurantSelect" class="vendor-select" aria-label="Choose restaurant" hidden></select>
+        <button class="vendor-ghost" id="soundToggle" type="button" aria-pressed="true">🔔 Sound on</button>
+        <button class="vendor-ghost" id="refreshBtn" type="button">↻ Refresh</button>
+        <button class="vendor-ghost" id="logoutBtn" type="button">Log out</button>
+    </div>
+</header>
+
+<main class="vendor-main">
+
+    <!-- LOGIN -->
+    <section class="vendor-login" id="loginView" hidden>
+        <span class="section-kicker">VENDOR LOGIN</span>
+        <h1>Welcome back 👋</h1>
+        <p>Log in to manage your restaurant, menu and orders.</p>
+        <p class="login-alt">Own a restaurant? <a href="apply.html">List it on Kasi Meals</a> &nbsp;•&nbsp; Ordering food? <a href="index.html">Customer app</a></p>
+        <form id="loginForm" class="vendor-form" autocomplete="on">
+            <label>
+                <span>Email</span>
+                <input type="email" id="email" required autocomplete="username">
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="password" required autocomplete="current-password">
+            </label>
+            <button class="checkout-button" id="loginBtn" type="submit">Log in <span>→</span></button>
+            <p class="vendor-error" id="loginError" role="alert" hidden></p>
+        </form>
+    </section>
+
+    <!-- APP -->
+    <section id="appView" hidden>
+
+        <div class="vendor-sections" id="sectionTabs">
+            <button class="section-tab active" data-section="orders" type="button">🧾 Orders</button>
+            <button class="section-tab" data-section="menu" type="button">🍽️ Menu</button>
+            <button class="section-tab" data-section="settings" type="button">⚙️ Restaurant</button>
+        </div>
+
+        <p class="vendor-error" id="globalError" role="alert" hidden></p>
+
+        <!-- ORDERS -->
+        <div id="ordersPanel">
+            <div class="vendor-heading">
+                <div>
+                    <span class="section-kicker">LIVE</span>
+                    <h1>Orders</h1>
+                </div>
+                <small id="lastUpdated"></small>
+            </div>
+            <div class="filter-chips" id="statusTabs"></div>
+            <div id="ordersList"></div>
+        </div>
+
+        <!-- MENU -->
+        <div id="menuPanel" hidden>
+            <div class="vendor-heading">
+                <div>
+                    <span class="section-kicker">YOUR MENU</span>
+                    <h1>Menu items</h1>
+                </div>
+                <button class="vendor-primary" id="addItemBtn" type="button">+ Add item</button>
+            </div>
+
+            <form class="vendor-card item-form" id="itemForm" hidden>
+                <h2 id="itemFormTitle">Add menu item</h2>
+                <div class="emoji-picker" id="emojiPicker"></div>
+                <div class="form-row">
+                    <label class="emoji-field">
+                        <span>Emoji</span>
+                        <input type="text" id="itemEmoji" maxlength="4" value="🍽️">
+                    </label>
+                    <label class="grow">
+                        <span>Name</span>
+                        <input type="text" id="itemName" maxlength="60" required placeholder="e.g. Fully Loaded Kota">
+                    </label>
+                </div>
+                <label>
+                    <span>Description</span>
+                    <textarea id="itemDescription" rows="2" maxlength="160" placeholder="What comes with it?"></textarea>
+                </label>
+                <div class="form-row">
+                    <label class="grow">
+                        <span>Price (R)</span>
+                        <input type="number" id="itemPrice" min="0" step="1" inputmode="numeric" required placeholder="45">
+                    </label>
+                    <label class="check-field">
+                        <input type="checkbox" id="itemAvailable" checked>
+                        <span>Available</span>
+                    </label>
+                </div>
+                <p class="vendor-error" id="itemError" role="alert" hidden></p>
+                <div class="form-actions">
+                    <button class="vendor-primary" id="itemSaveBtn" type="submit">Save item</button>
+                    <button class="vendor-ghost" id="itemCancelBtn" type="button">Cancel</button>
+                </div>
+            </form>
+
+            <div id="menuList"></div>
+        </div>
+
+        <!-- RESTAURANT SETTINGS -->
+        <div id="settingsPanel" hidden>
+            <div class="vendor-heading">
+                <div>
+                    <span class="section-kicker">YOUR RESTAURANT</span>
+                    <h1>Details</h1>
+                </div>
+            </div>
+
+            <div class="vendor-card open-card">
+                <div>
+                    <strong id="openLabel">Open for orders</strong>
+                    <p>Customers can only order while you are open.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="openToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <form class="vendor-card" id="settingsForm">
+                <label>
+                    <span>Restaurant name</span>
+                    <input type="text" id="setName" maxlength="60" required>
+                </label>
+                <label>
+                    <span>Short description</span>
+                    <input type="text" id="setType" maxlength="60" placeholder="e.g. Kotas • Fast Food">
+                </label>
+                <label>
+                    <span>Delivery time</span>
+                    <input type="text" id="setTime" maxlength="20" placeholder="e.g. 20–30 min">
+                </label>
+                <div class="form-row">
+                    <label class="grow">
+                        <span>Minimum order (R)</span>
+                        <input type="number" id="setMin" min="0" step="1" inputmode="numeric">
+                    </label>
+                    <label class="grow">
+                        <span>Delivery fee (R)</span>
+                        <input type="number" id="setFee" min="0" step="1" inputmode="numeric">
+                    </label>
+                </div>
+                <label>
+                    <span>Free delivery over (R)</span>
+                    <input type="number" id="setFree" min="0" step="1" inputmode="numeric">
+                </label>
+                <p class="vendor-error" id="settingsError" role="alert" hidden></p>
+                <p class="vendor-ok" id="settingsOk" hidden>Saved ✓</p>
+                <div class="form-actions">
+                    <button class="vendor-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="vendor.js?v=8"></script>
+</body>
+</html>
+

@@ -1,0 +1,1203 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#C65D21"
+>
+
+<meta
+    name="description"
+    content="KASI MEALS — Local food from local kitchens, delivered."
+>
+
+<title>Kasi Meals — Local food. Delivered.</title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link
+    rel="stylesheet"
+    href="style.css?v=8"
+>
+
+</head><body><div class="app"><!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-mark">
+            <img src="logo.png" alt="Kasi Meals logo">
+        </div>
+
+        <div class="brand-text">
+
+            <strong>
+                KASI MEALS
+            </strong>
+
+            <span>
+                Local food. Delivered.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            class="icon-button theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle dark mode"
+            type="button"
+        >
+            🌙
+        </button>
+
+
+        <button
+            class="icon-button cart-button"
+            aria-label="Shopping cart"
+            type="button"
+        >
+
+            🛒
+
+            <span class="cart-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="profile-button"
+            aria-label="Profile"
+            type="button"
+        >
+            👤
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main>
+
+
+    <!-- =================================================
+         LOCATION
+    ================================================== -->
+
+    <section class="location-section">
+
+        <button
+            class="location-button"
+            type="button"
+        >
+
+            <span class="location-icon">
+                📍
+            </span>
+
+
+            <span>
+
+                <small>
+                    Deliver to
+                </small>
+
+                <strong id="deliveryLocation">
+                    Pretoria
+                </strong>
+
+            </span>
+
+
+            <span class="chevron">
+                ⌄
+            </span>
+
+        </button>
+
+    </section>
+
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="eyebrow">
+                🇿🇦 MADE FOR MZANSI
+            </span>
+
+
+            <h1>
+
+                Your kasi.<br>
+
+                <span>
+                    Your food.
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Discover kotas, home-cooked meals,
+                braai and local favourites from
+                kitchens around you.
+
+            </p>
+
+
+            <div class="hero-highlights">
+
+                <span>
+                    🍔 Local favourites
+                </span>
+
+                <span>
+                    🛵 Delivered
+                </span>
+
+                <span>
+                    ❤️ Made with love
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-food">
+
+            <span>
+                🍔
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <span>
+                🔍
+            </span>
+
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="What are you craving?"
+                autocomplete="off"
+                aria-label="Search food and restaurants"
+            >
+
+
+            <button
+                class="clear-search"
+                id="clearSearch"
+                aria-label="Clear search"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CATEGORIES
+    ================================================== -->
+
+    <section class="section categories-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    EXPLORE
+                </span>
+
+                <h2>
+                    What are you craving?
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="categories">
+
+
+            <button
+                class="category active"
+                data-category="all"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🔥
+                </span>
+
+                <span>
+                    All
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="kotas"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🍔
+                </span>
+
+                <span>
+                    Kotas
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="meals"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🍛
+                </span>
+
+                <span>
+                    Kasi Meals
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="chicken"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🍗
+                </span>
+
+                <span>
+                    Chicken
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="braai"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🥩
+                </span>
+
+                <span>
+                    Braai
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="fastfood"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🍟
+                </span>
+
+                <span>
+                    Fast Food
+                </span>
+
+            </button>
+
+
+            <button
+                class="category"
+                data-category="drinks"
+                type="button"
+            >
+
+                <span class="category-icon">
+                    🥤
+                </span>
+
+                <span>
+                    Drinks
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FEATURED KASI MEAL
+    ================================================== -->
+
+    <section class="section featured-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    TODAY'S PICK
+                </span>
+
+                <h2>
+                    Featured KASI meal
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <article class="featured-meal-card">
+
+            <div class="featured-meal-content">
+
+                <span class="featured-label">
+                    🔥 KASI FAVOURITE
+                </span>
+
+
+                <h2>
+                    The Fully Loaded Kota
+                </h2>
+
+
+                <p>
+                    Chips, Russian, egg, cheese,
+                    atchar and all the sauce.
+                </p>
+
+
+                <div class="featured-meal-bottom">
+
+                    <strong>
+                        R55
+                    </strong>
+
+
+            <button
+                class="featured-action"
+                id="featuredMealAction"
+                type="button"
+            >
+                        View meal →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="featured-meal-image">
+
+                🍔
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROMOTION
+    ================================================== -->
+
+    <section class="promo-section">
+
+        <div class="promo-card">
+
+            <div class="promo-content">
+
+                <span class="promo-label">
+                    🔥 KOTA FRIDAY
+                </span>
+
+
+                <h2>
+                    Big hunger?
+                </h2>
+
+
+                <p>
+                    Find a kota that hits
+                    the spot.
+                </p>
+
+
+                <button
+                    class="promo-button"
+                    id="promoKotas"
+                    type="button"
+                >
+                    Explore kotas
+                </button>
+
+            </div>
+
+
+            <div class="promo-food">
+                🍔
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         POPULAR RESTAURANTS
+    ================================================== -->
+
+    <section class="section restaurants-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    NEAR YOU
+                </span>
+
+                <h2>
+                    Popular right now
+                </h2>
+
+            </div>
+
+
+            <button
+                class="see-all"
+                id="seeAllRestaurants"
+                type="button"
+            >
+                See all
+            </button>
+
+        </div>
+
+
+        <div
+            class="restaurant-grid"
+            id="restaurantGrid"
+        >
+
+
+            <!-- =========================================
+                 RESTAURANT 1
+            ========================================== -->
+
+            <article
+                class="restaurant-card"
+                data-category="kotas"
+            >
+
+                <div
+                    class="restaurant-image kota-image"
+                >
+
+                    <span class="food-emoji">
+                        🍔
+                    </span>
+
+
+                    <button
+                        class="favorite-button"
+                        aria-label="Favourite Mama's Kota"
+                        type="button"
+                    >
+                        ♡
+                    </button>
+
+
+                    <span class="delivery-badge">
+                        20–30 min
+                    </span>
+
+                </div>
+
+
+                <div class="restaurant-info">
+
+                    <div class="restaurant-title">
+
+                        <h3>
+                            Mama's Kota
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4.8
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Kotas • Fast Food
+                    </p>
+
+
+                    <div class="restaurant-meta">
+
+                        <span>
+                            R35 min.
+                        </span>
+
+                        <span>
+                            •
+                        </span>
+
+                        <span>
+                            Free delivery
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================================
+                 RESTAURANT 2
+            ========================================== -->
+
+            <article
+                class="restaurant-card"
+                data-category="meals"
+            >
+
+                <div
+                    class="restaurant-image meals-image"
+                >
+
+                    <span class="food-emoji">
+                        🍛
+                    </span>
+
+
+                    <button
+                        class="favorite-button"
+                        aria-label="Favourite Gogo's Kitchen"
+                        type="button"
+                    >
+                        ♡
+                    </button>
+
+
+                    <span class="delivery-badge">
+                        25–35 min
+                    </span>
+
+                </div>
+
+
+                <div class="restaurant-info">
+
+                    <div class="restaurant-title">
+
+                        <h3>
+                            Gogo's Kitchen
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4.9
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Kasi Meals • Home Cooked
+                    </p>
+
+
+                    <div class="restaurant-meta">
+
+                        <span>
+                            R50 min.
+                        </span>
+
+                        <span>
+                            •
+                        </span>
+
+                        <span>
+                            R10 delivery
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================================
+                 RESTAURANT 3
+            ========================================== -->
+
+            <article
+                class="restaurant-card"
+                data-category="braai"
+            >
+
+                <div
+                    class="restaurant-image braai-image"
+                >
+
+                    <span class="food-emoji">
+                        🥩
+                    </span>
+
+
+                    <button
+                        class="favorite-button"
+                        aria-label="Favourite Braai Corner"
+                        type="button"
+                    >
+                        ♡
+                    </button>
+
+
+                    <span class="delivery-badge">
+                        30–40 min
+                    </span>
+
+                </div>
+
+
+                <div class="restaurant-info">
+
+                    <div class="restaurant-title">
+
+                        <h3>
+                            Braai Corner
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4.7
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Shisanyama • Braai
+                    </p>
+
+
+                    <div class="restaurant-meta">
+
+                        <span>
+                            R60 min.
+                        </span>
+
+                        <span>
+                            •
+                        </span>
+
+                        <span>
+                            R15 delivery
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================================
+                 RESTAURANT 4
+            ========================================== -->
+
+            <article
+                class="restaurant-card"
+                data-category="chicken"
+            >
+
+                <div
+                    class="restaurant-image chicken-image"
+                >
+
+                    <span class="food-emoji">
+                        🍗
+                    </span>
+
+
+                    <button
+                        class="favorite-button"
+                        aria-label="Favourite Kasi Chicken"
+                        type="button"
+                    >
+                        ♡
+                    </button>
+
+
+                    <span class="delivery-badge">
+                        20–25 min
+                    </span>
+
+                </div>
+
+
+                <div class="restaurant-info">
+
+                    <div class="restaurant-title">
+
+                        <h3>
+                            Kasi Chicken
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4.6
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Chicken • Fast Food
+                    </p>
+
+
+                    <div class="restaurant-meta">
+
+                        <span>
+                            R45 min.
+                        </span>
+
+                        <span>
+                            •
+                        </span>
+
+                        <span>
+                            R10 delivery
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RECOMMENDED
+    ================================================== -->
+
+    <section class="section recommended-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    JUST FOR YOU
+                </span>
+
+                <h2>
+                    Recommended for you
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="recommended-grid">
+
+
+            <article class="recommended-card">
+
+                <div class="recommended-image">
+                    🍔
+                </div>
+
+
+                <div class="recommended-info">
+
+                    <span class="recommended-tag">
+                        KOTA
+                    </span>
+
+
+                    <h3>
+                        Classic Kota
+                    </h3>
+
+
+                    <p>
+                        Mama's Kota
+                    </p>
+
+
+                    <div class="recommended-bottom">
+
+                        <strong>
+                            R35
+                        </strong>
+
+
+                        <button
+                            class="recommended-add"
+                            data-recommended="Classic Kota"
+                            type="button"
+                        >
+                            + Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="recommended-card">
+
+                <div class="recommended-image">
+                    🍗
+                </div>
+
+
+                <div class="recommended-info">
+
+                    <span class="recommended-tag">
+                        CHICKEN
+                    </span>
+
+
+                    <h3>
+                        Chicken & Chips
+                    </h3>
+
+
+                    <p>
+                        Kasi Chicken
+                    </p>
+
+
+                    <div class="recommended-bottom">
+
+                        <strong>
+                            R45
+                        </strong>
+
+
+                        <button
+                            class="recommended-add"
+                            data-recommended="Chicken & Chips"
+                            type="button"
+                        >
+                            + Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="recommended-card">
+
+                <div class="recommended-image">
+                    🍛
+                </div>
+
+
+                <div class="recommended-info">
+
+                    <span class="recommended-tag">
+                        HOME COOKED
+                    </span>
+
+
+                    <h3>
+                        Pap & Beef
+                    </h3>
+
+
+                    <p>
+                        Gogo's Kitchen
+                    </p>
+
+
+                    <div class="recommended-bottom">
+
+                        <strong>
+                            R50
+                        </strong>
+
+
+                        <button
+                            class="recommended-add"
+                            data-recommended="Pap & Beef"
+                            type="button"
+                        >
+                            + Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         EMPTY SEARCH STATE
+    ================================================== -->
+
+    <div
+        class="empty-state"
+        id="emptyState"
+        hidden
+    >
+
+        <div>
+            😕
+        </div>
+
+
+        <h3>
+            Nothing found
+        </h3>
+
+
+        <p>
+            Try searching for another
+            food or restaurant.
+        </p>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     STICKY CART
+     Hidden until we add the proper behaviour.
+====================================================== -->
+
+<div
+    class="sticky-cart"
+    id="stickyCart"
+    hidden
+>
+
+    <div>
+
+        <span>
+            🛒
+        </span>
+
+        <div>
+
+            <strong>
+                Your cart
+            </strong>
+
+            <small id="stickyCartSummary">
+                Ready when you are
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="sticky-cart-button cart-button"
+        type="button"
+    >
+        View cart →
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="bottom-nav">
+
+
+    <button
+        class="nav-item active"
+        data-nav="home"
+        type="button"
+    >
+
+        <span>
+            ⌂
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        data-nav="discover"
+        type="button"
+    >
+
+        <span>
+            ⌕
+        </span>
+
+        <small>
+            Discover
+        </small>
+
+    </button>
+
+
+    <button
+        class="nav-item cart-nav"
+        type="button"
+    >
+
+        <span>
+            🛒
+        </span>
+
+        <small>
+            Cart
+        </small>
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        data-nav="favourites"
+        type="button"
+    >
+
+        <span>
+            ♡
+        </span>
+
+        <small>
+            Favourites
+        </small>
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        data-nav="profile"
+        type="button"
+    >
+
+        <span>
+            ◉
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </button>
+
+
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</div><script src="app.js?v=8"></script>
+</body>
+</html>
+

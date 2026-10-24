@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C65D21">
+<title>Kasi Meals — Admin</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="vendor.css?v=8">
+<link rel="stylesheet" href="admin.css?v=8">
+</head>
+<body>
+
+<header class="vendor-topbar">
+    <div class="brand">
+        <div class="brand-mark"><img src="logo.png" alt="Kasi Meals logo"></div>
+        <div class="brand-text">
+            <strong>KASI MEALS</strong>
+            <span>Admin</span>
+        </div>
+    </div>
+    <div class="vendor-actions" id="adminActions" hidden>
+        <button class="vendor-ghost" id="refreshBtn" type="button">↻ Refresh</button>
+        <button class="vendor-ghost" id="logoutBtn" type="button">Log out</button>
+    </div>
+</header>
+
+<main class="vendor-main">
+
+    <section class="vendor-login" id="loginView" hidden>
+        <span class="section-kicker">ADMIN LOGIN</span>
+        <h1>Admin 🔐</h1>
+        <p>Only approved administrators can enter.</p>
+        <form id="loginForm" class="vendor-form" autocomplete="on">
+            <label>
+                <span>Email</span>
+                <input type="email" id="email" required autocomplete="username">
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="password" required autocomplete="current-password">
+            </label>
+            <button class="checkout-button" id="loginBtn" type="submit">Log in <span>→</span></button>
+            <p class="vendor-error" id="loginError" role="alert" hidden></p>
+        </form>
+    </section>
+
+    <section id="appView" hidden>
+        <div class="vendor-sections" id="sectionTabs">
+            <button class="section-tab active" data-section="overview" type="button">📊 Overview</button>
+            <button class="section-tab" data-section="applications" type="button">📝 Applications<span class="tab-dot" id="pendingDot" hidden>0</span></button>
+            <button class="section-tab" data-section="restaurants" type="button">🍽️ Restaurants</button>
+            <button class="section-tab" data-section="orders" type="button">🧾 Orders</button>
+        </div>
+
+        <p class="vendor-error" id="globalError" role="alert" hidden></p>
+
+        <div id="overviewPanel"></div>
+
+        <div id="applicationsPanel" hidden>
+            <div class="vendor-heading"><div><span class="section-kicker">REVIEW</span><h1>Applications</h1></div></div>
+            <div class="filter-chips" id="appFilters"></div>
+            <div id="applicationsList"></div>
+        </div>
+
+        <div id="restaurantsPanel" hidden>
+            <div class="vendor-heading"><div><span class="section-kicker">ALL RESTAURANTS</span><h1>Restaurants</h1></div></div>
+            <div id="restaurantsList"></div>
+        </div>
+
+        <div id="ordersPanel" hidden>
+            <div class="vendor-heading"><div><span class="section-kicker">LATEST 100</span><h1>All orders</h1></div></div>
+            <div class="filter-chips" id="orderFilters"></div>
+            <div class="admin-orders" id="ordersList"></div>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js?v=8"></script>
+</body>
+</html>
+
