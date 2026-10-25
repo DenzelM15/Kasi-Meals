@@ -257,7 +257,10 @@ function renderRestaurants() {
         $("restaurantsList").innerHTML = `<div class="vendor-empty"><div>🍽️</div><p>No restaurants yet.</p></div>`;
         return;
     }
-    $("restaurantsList").innerHTML = restaurants.map(r => `
+    const noPin = restaurants.filter(r => r.latitude == null || r.longitude == null).length;
+    $("restaurantsList").innerHTML = (noPin
+        ? `<p class="vendor-error" style="margin-bottom:12px">⚠️ ${noPin} restaurant${noPin === 1 ? " has" : "s have"} no location pin yet.</p>` : "")
+        + restaurants.map(r => `
         <article class="app-card">
             <div class="row-top">
                 <div>
@@ -269,7 +272,14 @@ function renderRestaurants() {
                     <span class="pill ${r.is_open ? "ok" : "grey"}">${r.is_open ? "Open" : "Closed"}</span>
                 </div>
             </div>
-            <dl><dt>Owner</dt><dd>${esc(r.owners || "—")}</dd></dl>
+            <dl>
+                <dt>Owner</dt><dd>${esc(r.owners || "—")}</dd>
+                <dt>Phone</dt><dd>${esc(r.phone || "—")}</dd>
+                <dt>Address</dt><dd>${esc(r.address || "—")}</dd>
+                <dt>Pin</dt><dd>${r.latitude != null && r.longitude != null
+                    ? `📍 <a href="https://www.google.com/maps?q=${Number(r.latitude)},${Number(r.longitude)}" target="_blank" rel="noopener">View on map ↗</a>`
+                    : "⚠️ Not set"}</dd>
+            </dl>
             <div class="order-actions">
                 <button class="${r.is_active ? "secondary" : ""}" data-rest="${r.is_active ? "suspend" : "restore"}" data-id="${esc(r.id)}" type="button">
                     ${r.is_active ? "Suspend restaurant" : "Restore restaurant"}

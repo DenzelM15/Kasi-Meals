@@ -35,6 +35,10 @@ let discoverQuery = "";
 let discoverFilter = "all";
 let discoverDishes = [];
 
+const LOC_KEY = "kasi-location";
+let deliveryLocation = null;    // { label, address, lat, lng }
+try { deliveryLocation = JSON.parse(localStorage.getItem(LOC_KEY)); } catch (e) { deliveryLocation = null; }
+
 let currentUser = null;
 let authMode = "login";
 let historyOrders = [];
@@ -458,8 +462,8 @@ function openCheckout() {
                         <input type="tel" id="customerPhone" placeholder="e.g. 082 123 4567" value="${esc(prefillPhone)}" required>
                     </label>
                     <label>
-                        <span>Delivery notes / Address</span>
-                        <textarea id="deliveryNotes" rows="3" placeholder="Hostel name, room number, or landmark"></textarea>
+                        <span>Delivery address &amp; notes</span>
+                        <textarea id="deliveryNotes" rows="3" placeholder="Street, hostel name, room number or landmark">${esc(deliveryLocation ? (deliveryLocation.address || deliveryLocation.label || "") : "")}</textarea>
                     </label>
                 </div>
                 <div class="checkout-total">
@@ -481,7 +485,13 @@ function openCheckout() {
 async function placeRealOrder() {
     const name = document.getElementById("customerName")?.value.trim();
     const phone = document.getElementById("customerPhone")?.value.trim();
-    const notes = document.getElementById("deliveryNotes")?.value.trim() || "";
+    let notes = document.getElementById("deliveryNotes")?.value.trim() || "";
+
+    // If the customer shared their GPS location, give the vendor a map link
+    if (deliveryLocation && deliveryLocation.lat && deliveryLocation.lng) {
+        notes += (notes ? "\n" : "")
+            + `Map: https://www.google.com/maps?q=${deliveryLocation.lat},${deliveryLocation.lng}`;
+    }
 
     if (!name || !phone) {
         alert("Please enter your name and phone number");
@@ -1279,6 +1289,141 @@ function reorder(orderId) {
 }
 
 /* =========================================================
+   DELIVERY LOCATION
+========================================================= */
+function updateLocationChip() {
+    const el = document.getElementById("deliveryLocation");
+    if (el) el.textContent = (deliveryLocation && deliveryLocation.label) || "Set your location";
+}
+
+function saveLocation(loc) {
+    deliveryLocation = loc;
+    try {
+        if (loc) localStorage.setItem(LOC_KEY, JSON.stringify(loc));
+        else localStorage.removeItem(LOC_KEY);
+    } catch (e) { /* ignore */ }
+    updateLocationChip();
+}
+
+// Turns GPS coordinates into a readable place using OpenStreetMap's free Nominatim service
+async function reverseGeocode(lat, lng) {
+    const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&addressdetails=1&zoom=17&accept-language=en"
+        + `&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Lookup failed");
+    const d = await res.json();
+    const a = d.address || {};
+    const area = a.suburb || a.neighbourhood || a.quarter || a.village || a.hamlet || a.city_district || "";
+    const city = a.city || a.town || a.municipality || a.county || "";
+    const label = [area, city].filter((v, i, arr) => v && arr.indexOf(v) === i).join(", ")
+        || String(d.display_name || "").split(",").slice(0, 2).join(",").trim();
+    return { label: label || "Current location", address: d.display_name || label || "" };
+}
+
+function closeLocationSheet() {
+    document.getElementById("locationSheet")?.remove();
+    document.removeEventListener("keydown", onSheetKey);
+}
+
+function onSheetKey(e) {
+    if (e.key === "Escape") closeLocationSheet();
+}
+
+function openLocationSheet() {
+    closeLocationSheet();
+
+    const wrap = document.createElement("div");
+    wrap.className = "sheet-overlay";
+    wrap.id = "locationSheet";
+    wrap.innerHTML = `
+        <div class="sheet" role="dialog" aria-modal="true" aria-label="Choose delivery location">
+            <div class="sheet-handle"></div>
+            <div class="sheet-head">
+                <h2>Where should we deliver?</h2>
+                <button class="sheet-close" id="sheetClose" aria-label="Close" type="button">×</button>
+            </div>
+
+            <button class="sheet-primary" id="useGps" type="button">📍 Use my current location</button>
+            <p class="sheet-or">or type it in</p>
+
+            <form id="manualLocation" class="sheet-form">
+                <input type="text" id="manualInput" maxlength="80" autocomplete="street-address"
+                       placeholder="Suburb, town or street address"
+                       value="${esc(deliveryLocation && !deliveryLocation.lat ? deliveryLocation.label : "")}">
+                <button class="sheet-save" type="submit">Save</button>
+            </form>
+
+            <p class="sheet-msg" id="sheetMsg" role="status" hidden></p>
+            <p class="sheet-note">Your exact location is only shared with the restaurant when you place an order.</p>
+            ${deliveryLocation ? `<button class="link-button" id="clearLocation" type="button">Remove saved location</button>` : ""}
+        </div>
+    `;
+    document.body.appendChild(wrap);
+    document.addEventListener("keydown", onSheetKey);
+
+    const msg = (text, isError = false) => {
+        const el = document.getElementById("sheetMsg");
+        if (!el) return;
+        el.textContent = text || "";
+        el.hidden = !text;
+        el.classList.toggle("error", isError);
+    };
+
+    wrap.addEventListener("click", (e) => { if (e.target === wrap) closeLocationSheet(); });
+    document.getElementById("sheetClose").addEventListener("click", closeLocationSheet);
+
+    document.getElementById("clearLocation")?.addEventListener("click", () => {
+        saveLocation(null);
+        closeLocationSheet();
+        showToast("Location removed");
+    });
+
+    document.getElementById("manualLocation").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = document.getElementById("manualInput").value.trim();
+        if (!text) { msg("Please type your area or address.", true); return; }
+        saveLocation({ label: text, address: text, lat: null, lng: null });
+        closeLocationSheet();
+        showToast("Delivering to " + text);
+    });
+
+    document.getElementById("useGps").addEventListener("click", () => {
+        const btn = document.getElementById("useGps");
+        if (!navigator.geolocation) {
+            msg("Your browser can't share your location. Please type it in instead.", true);
+            return;
+        }
+        btn.disabled = true;
+        msg("Finding you…");
+
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const lat = Math.round(pos.coords.latitude * 1e5) / 1e5;
+            const lng = Math.round(pos.coords.longitude * 1e5) / 1e5;
+            let info = { label: "Current location", address: "" };
+            try { info = await reverseGeocode(lat, lng); } catch (e) { /* keep the coordinates anyway */ }
+
+            saveLocation({ label: info.label, address: info.address, lat, lng });
+            closeLocationSheet();
+            showToast("Delivering to " + info.label);
+        }, (err) => {
+            btn.disabled = false;
+            msg(err && err.code === 1
+                ? "Location is blocked for this site. Allow it in your browser settings, or type your area instead."
+                : "Couldn't get your location. Please try again or type it in.", true);
+        }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 });
+    });
+
+    document.getElementById("manualInput").focus();
+}
+
+function bindLocation() {
+    // delegated, so it works after every re-render of the home page
+    document.querySelector("main")?.addEventListener("click", (e) => {
+        if (e.target.closest("#locationButton")) openLocationSheet();
+    });
+}
+
+/* =========================================================
    NAVIGATION
 ========================================================= */
 function rememberReturnView() {
@@ -1298,6 +1443,7 @@ function renderHome() {
     const main = document.querySelector("main");
     if (!main) return;
     main.innerHTML = homeHTML;
+    updateLocationChip();
     fillRestaurantGrid();
     activeCategory = "all";
     bindAllEvents();
@@ -1336,6 +1482,8 @@ async function init() {
     if (grid) grid.innerHTML = `<p class="grid-note">Loading restaurants…</p>`;
 
     bindFavouriteClicks();
+    bindLocation();
+    updateLocationChip();
     bindBottomNav();
     bindCartButtons();
     bindCategories();
@@ -1391,7 +1539,7 @@ async function init() {
         if (currentView === "profile" && currentUser) refreshHistory();
     }, 30000);
 
-    console.log("Kasi Meals v8 ready (accounts + vendor menus)");
+    console.log("Kasi Meals v9 ready (accounts + vendor menus)");
 }
 
 init();

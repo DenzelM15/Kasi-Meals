@@ -8,8 +8,8 @@
 <title>Kasi Meals — Vendor</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=8">
-<link rel="stylesheet" href="vendor.css?v=8">
+<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="vendor.css?v=10">
 </head>
 <body>
 
@@ -169,6 +169,24 @@
                     <span>Free delivery over (R)</span>
                     <input type="number" id="setFree" min="0" step="1" inputmode="numeric">
                 </label>
+
+                <h2 class="settings-sub">Location</h2>
+                <label>
+                    <span>Phone number</span>
+                    <input type="tel" id="setPhone" maxlength="30" placeholder="e.g. 082 123 4567" autocomplete="tel">
+                </label>
+                <label>
+                    <span>Address</span>
+                    <textarea id="setAddress" rows="2" maxlength="200" placeholder="Street, area and town"></textarea>
+                </label>
+                <div class="pin-box">
+                    <div id="pinStatus" class="pin-status"></div>
+                    <div class="form-actions">
+                        <button class="vendor-ghost" id="pinUseGps" type="button">📍 Use my current location</button>
+                        <button class="vendor-ghost" id="pinClear" type="button">Remove pin</button>
+                    </div>
+                    <p class="pin-hint">Stand at your restaurant and tap the button to drop the pin there.</p>
+                </div>
                 <p class="vendor-error" id="settingsError" role="alert" hidden></p>
                 <p class="vendor-ok" id="settingsOk" hidden>Saved ✓</p>
                 <div class="form-actions">
@@ -181,7 +199,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="vendor.js?v=8"></script>
+<script src="vendor.js?v=10"></script>
 </body>
 </html>
 

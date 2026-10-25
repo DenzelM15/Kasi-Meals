@@ -288,6 +288,14 @@ function renderOrders(newIds = []) {
     $("ordersList").innerHTML = list.map(o => orderCard(o, newIds.includes(o.id))).join("");
 }
 
+// Escape the text, then turn our own Google Maps links into a tap-to-open link
+function formatNotes(text) {
+    return esc(text)
+        .replace(/https:\/\/www\.google\.com\/maps\?q=-?\d{1,3}\.\d+,-?\d{1,3}\.\d+/g,
+                 url => `<a href="${url}" target="_blank" rel="noopener">Open map ↗</a>`)
+        .replace(/\n/g, "<br>");
+}
+
 function orderCard(o, isNew) {
     const status = STATUSES.find(s => s.id === o.status);
     const items = itemsByOrder[o.id] || [];
@@ -314,7 +322,7 @@ function orderCard(o, isNew) {
                 <a href="https://wa.me/${esc(waNumber)}" target="_blank" rel="noopener">💬 WhatsApp</a>
             </div>
 
-            ${o.delivery_notes ? `<div class="order-notes">📍 ${esc(o.delivery_notes)}</div>` : ""}
+            ${o.delivery_notes ? `<div class="order-notes">📍 ${formatNotes(o.delivery_notes)}</div>` : ""}
 
             <ul class="order-items">
                 ${items.length ? items.map(it => `
@@ -495,6 +503,65 @@ $("menuList").addEventListener("click", async (e) => {
    RESTAURANT SETTINGS
 ========================================================= */
 
+let pin = null;   // { lat, lng } or null
+
+function renderPin(unsaved = false) {
+    const el = $("pinStatus");
+    if (!pin) {
+        el.innerHTML = "⚠️ No pin set yet. Add one so customers can find you.";
+        return;
+    }
+    const lat = Number(pin.lat), lng = Number(pin.lng);
+    el.innerHTML = `📍 Pin set: ${lat.toFixed(5)}, ${lng.toFixed(5)} &middot; ` +
+        `<a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" rel="noopener">Check on map ↗</a>` +
+        (unsaved ? `<br><strong>Tap "Save changes" to keep it.</strong>` : "");
+}
+
+async function addressFromPin(lat, lng) {
+    const url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&accept-language=en"
+        + `&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("lookup failed");
+    const d = await res.json();
+    return d.display_name || "";
+}
+
+$("pinUseGps").addEventListener("click", () => {
+    setText("settingsError", "");
+    if (!navigator.geolocation) {
+        setText("settingsError", "Your browser can't share your location.");
+        return;
+    }
+    const btn = $("pinUseGps");
+    btn.disabled = true;
+    btn.textContent = "Finding you…";
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        pin = {
+            lat: Math.round(pos.coords.latitude * 1e5) / 1e5,
+            lng: Math.round(pos.coords.longitude * 1e5) / 1e5
+        };
+        renderPin(true);
+        // only fill the address if the vendor hasn't typed one
+        if (!$("setAddress").value.trim()) {
+            try { $("setAddress").value = await addressFromPin(pin.lat, pin.lng); } catch (e) { /* optional */ }
+        }
+        btn.disabled = false;
+        btn.textContent = "📍 Use my current location";
+    }, (err) => {
+        btn.disabled = false;
+        btn.textContent = "📍 Use my current location";
+        setText("settingsError", err && err.code === 1
+            ? "Location is blocked for this site. Allow it in your browser settings and try again."
+            : "Couldn't get your location. Please try again.");
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+});
+
+$("pinClear").addEventListener("click", () => {
+    pin = null;
+    renderPin(true);
+});
+
 function fillSettings() {
     if (!restaurant) return;
     $("setName").value = restaurant.name;
@@ -503,6 +570,11 @@ function fillSettings() {
     $("setMin").value = restaurant.min_order;
     $("setFee").value = restaurant.delivery_fee;
     $("setFree").value = restaurant.free_delivery_over;
+    $("setPhone").value = restaurant.phone || "";
+    $("setAddress").value = restaurant.address || "";
+    pin = (restaurant.latitude != null && restaurant.longitude != null)
+        ? { lat: Number(restaurant.latitude), lng: Number(restaurant.longitude) } : null;
+    renderPin(false);
     $("openToggle").checked = !!restaurant.is_open;
     $("openLabel").textContent = restaurant.is_open ? "Open for orders" : "Closed";
     setText("settingsError", "");
@@ -533,7 +605,11 @@ $("settingsForm").addEventListener("submit", async (e) => {
         delivery_time: $("setTime").value.trim() || "20–30 min",
         min_order: num("setMin"),
         delivery_fee: num("setFee"),
-        free_delivery_over: num("setFree")
+        free_delivery_over: num("setFree"),
+        phone: $("setPhone").value.trim(),
+        address: $("setAddress").value.trim(),
+        latitude: pin ? pin.lat : null,
+        longitude: pin ? pin.lng : null
     };
     if (!payload.name) { setText("settingsError", "Please enter a restaurant name."); return; }
 
@@ -542,6 +618,7 @@ $("settingsForm").addEventListener("submit", async (e) => {
 
     Object.assign(restaurant, payload);
     buildRestaurantSelect();
+    renderPin(false);
     $("settingsOk").hidden = false;
 });
 

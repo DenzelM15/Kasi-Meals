@@ -227,6 +227,7 @@ body { background: var(--background); color: var(--text); }
 
 .vendor-card input[type="text"],
 .vendor-card input[type="number"],
+.vendor-card input[type="tel"],
 .vendor-card textarea {
     width: 100%;
     box-sizing: border-box;
@@ -327,4 +328,12 @@ body { background: var(--background); color: var(--text); }
 .vendor-ghost { text-decoration: none; display: inline-block; }
 .login-alt { margin-top: 14px; font-size: 13px; }
 .login-alt a { color: var(--primary); font-weight: 800; }
+.order-notes a { color: var(--primary); font-weight: 800; }
+
+.settings-sub { margin: 8px 0 0; font-size: 17px; }
+.pin-box { display: grid; gap: 10px; padding: 14px; border: 1px dashed var(--border); border-radius: 14px; background: var(--background); }
+.pin-status { font-size: 14px; font-weight: 700; line-height: 1.5; }
+.pin-status a { color: var(--primary); font-weight: 800; }
+.pin-hint { margin: 0; font-size: 12px; color: var(--text-soft); }
+.vendor-ghost:disabled { opacity: 0.55; cursor: wait; }
 
